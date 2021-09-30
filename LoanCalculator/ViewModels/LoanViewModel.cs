@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using LoanCalculator.Models;
 
 namespace LoanCalculator.ViewModels
@@ -12,7 +13,7 @@ namespace LoanCalculator.ViewModels
     {
         private DiffLoanModel LoanModel = new();
         //Инициализация Amount
-        private double _amount;
+        private double _amount = 100000;
         public double Amount
         {
             get { return _amount; }
@@ -24,7 +25,7 @@ namespace LoanCalculator.ViewModels
         }
 
         //Инициализация InterestRate
-        private double _interestRate;
+        private double _interestRate = 10;
         public double InterestRate
         {
             get { return _interestRate; }
@@ -36,7 +37,7 @@ namespace LoanCalculator.ViewModels
         }
 
         //Инициализация Months
-        private int _months;
+        private int _months = 6;
         public int Months
         {
             get { return _months; }
@@ -64,7 +65,20 @@ namespace LoanCalculator.ViewModels
         {
             get{ return LoanModel.Payments; }
         }
+        
+        //Нажатие кнопки
+        public ICommand CalculateClick { get; set; }
 
+        public LoanViewModel()
+        {
+            CalculateClick = new DelegateCommand(o => Calculate("CalculateClick"));
+        }
+
+        private void Calculate(object sender)
+        {
+            LoanModel.CalculateLoan(_amount, _interestRate, _months, _isInterestPerYear);
+            OnPropertyChanged("GetPayments");
+        }
         //Реализация интерфейса
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged(string propertyName)

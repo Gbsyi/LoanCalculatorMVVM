@@ -20,20 +20,22 @@ namespace LoanCalculator.Models
         {
             return _totalPayment;
         }
-        public void CalculateLoan(double loan, double interestRate, int months, bool isInterestPerYear)
+
+        public void CalculateLoan(double amount, double interestRate, int months, bool isInterestPerYear)
         {
-            MainPayment = loan / months;
+            Payments = new List<double>();
+            MainPayment = amount / months;
             interestRate /= 100;
 
             if (isInterestPerYear) { interestRate /= 12; }
 
             for (int index = 0; index < months; index++)
             {
-                Payments.Add(Math.Round(MainPayment + (loan - (MainPayment * index)) * interestRate, 2, MidpointRounding.ToEven));
+                Payments.Add(Math.Round(MainPayment + (amount - (MainPayment * index)) * interestRate, 2, MidpointRounding.ToEven));
                 _totalPayment += Payments[index];
             }
 
-            _overpayment = Math.Round(_totalPayment - loan, 2, MidpointRounding.ToEven);
+            _overpayment = Math.Round(_totalPayment - amount, 2, MidpointRounding.ToEven);
         }
     }
 }

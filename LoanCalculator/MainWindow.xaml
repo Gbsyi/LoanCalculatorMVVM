@@ -4,9 +4,17 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LoanCalculator"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:viewModels="clr-namespace:LoanCalculator.ViewModels"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{DynamicResource MaterialDesignFont}"
+        Title="MainWindow" Height="400" Width="800">
     <Window.DataContext>
         <viewModels:LoanViewModel/>
     </Window.DataContext>
@@ -15,13 +23,48 @@
             <ColumnDefinition Width="3*"/>
             <ColumnDefinition Width="7*"/>
         </Grid.ColumnDefinitions>
-        <StackPanel Grid.Column="0">
-            <Label HorizontalAlignment="Center">Расчёт выплат по кредиту</Label>
-            <TextBox>
+        <StackPanel Grid.Column="0" Margin="5,5,0,0">
+            <Label HorizontalAlignment="Center" Margin="0,5" FontWeight="Bold">Расчёт выплат по кредиту</Label>
+            <Separator/>
+            <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                     materialDesign:HintAssist.Hint="Сумма кредита">
                 <Binding Path="Amount" UpdateSourceTrigger="PropertyChanged">
                     
                 </Binding>
             </TextBox>
+            <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                         materialDesign:HintAssist.Hint="Срок кредитования (мес.)"
+                         Grid.Column="0">
+                <Binding Path="Months" UpdateSourceTrigger="PropertyChanged">
+
+                </Binding>
+            </TextBox>
+            <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                     materialDesign:HintAssist.Hint="Процентная ставка">
+                <Binding Path="InterestRate" UpdateSourceTrigger="PropertyChanged">
+
+                </Binding>
+            </TextBox>
+            <CheckBox IsChecked="{Binding IsInterestPerYear}"
+                      Margin="0,7">
+                Годовая процентная ставка
+            </CheckBox>
+            <Button Command="{Binding CalculateClick}">Рассчитать</Button>
         </StackPanel>
+        <ScrollViewer Grid.Column="1">
+            <StackPanel  Margin="0,5,0,5" VerticalAlignment="Stretch">
+                <Label HorizontalAlignment="Center"
+                       Margin="0,5"
+                       FontWeight="Bold">Результат расчёта</Label>
+                <Separator/>
+                <Label Content="Полная сумма выплат: " DockPanel.Dock="Top"/>
+                <Label Content="Переплата: " DockPanel.Dock="Top"/>
+                <Label Content="Основной платёж/Ежемесячный платёж: " DockPanel.Dock="Top"/>
+                <ListBox ItemsSource="{Binding Path=GetPayments}">
+                   
+                </ListBox>    
+                
+            </StackPanel>
+        </ScrollViewer>
     </Grid>
 </Window>
