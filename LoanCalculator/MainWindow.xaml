@@ -52,7 +52,7 @@
             <Button Command="{Binding CalculateClick}">Рассчитать</Button>
         </StackPanel>
         <ScrollViewer Grid.Column="1">
-            <StackPanel  Margin="0,5,0,5" VerticalAlignment="Stretch">
+            <StackPanel  Margin="0,5,0,0" VerticalAlignment="Stretch">
                 <Label HorizontalAlignment="Center"
                        Margin="0,5"
                        FontWeight="Bold">Результат расчёта</Label>
@@ -60,10 +60,10 @@
                 <Label Content="Полная сумма выплат: " DockPanel.Dock="Top"/>
                 <Label Content="Переплата: " DockPanel.Dock="Top"/>
                 <Label Content="Основной платёж/Ежемесячный платёж: " DockPanel.Dock="Top"/>
-                <DataGrid ItemsSource="{Binding LoanPayments}">
+                <DataGrid x:Name="d" ItemsSource="{Binding LoanPayments}" AutoGenerateColumns="False">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Месяц" Binding="{Binding Index}"></DataGridTextColumn>
-                        <DataGridTextColumn Header="Дата платежа" Binding="{Binding PaymentDate}"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Дата платежа" Binding="{Binding PaymentDate, StringFormat={}{0:dd/MMMM/yyyy}, ConverterCulture=ru-RU}"></DataGridTextColumn>
                         <DataGridTextColumn Header="Платёж" Binding="{Binding Payment}"></DataGridTextColumn>
                         <DataGridTextColumn Header="Проценты" Binding="{Binding Percents}"></DataGridTextColumn>
                         <DataGridTextColumn Header="Остаток" Binding="{Binding Residue}"></DataGridTextColumn>

@@ -17,11 +17,11 @@ namespace LoanCalculator
             Percents = percents;
             Residue = residue;
         }
-        public int Index;
-        public DateTime PaymentDate;
-        public double Payment;
-        public double Percents;
-        public double Residue;
+        public int Index { get; set; }
+        public DateTime PaymentDate { get; set; }
+        public double Payment { get; set; }
+        public double Percents { get; set; }
+        public double Residue { get; set; }
 
     }
 

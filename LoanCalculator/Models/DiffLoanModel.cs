@@ -41,7 +41,7 @@ namespace LoanCalculator.Models
                     date.AddMonths(index),
                     currentPayment, //Payment
                     Math.Round(currentPayment - MainPayment, 2, MidpointRounding.ToEven), //Percents
-                    amount - _totalPayment
+                    Math.Round(amount - _totalPayment)
                     ));
             }
 
