@@ -60,9 +60,15 @@
                 <Label Content="Полная сумма выплат: " DockPanel.Dock="Top"/>
                 <Label Content="Переплата: " DockPanel.Dock="Top"/>
                 <Label Content="Основной платёж/Ежемесячный платёж: " DockPanel.Dock="Top"/>
-                <ListBox ItemsSource="{Binding Path=GetPayments}">
-                   
-                </ListBox>    
+                <DataGrid ItemsSource="{Binding LoanPayments}">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Месяц" Binding="{Binding Index}"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Дата платежа" Binding="{Binding PaymentDate}"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Платёж" Binding="{Binding Payment}"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Проценты" Binding="{Binding Percents}"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Остаток" Binding="{Binding Residue}"></DataGridTextColumn>
+                    </DataGrid.Columns>
+                </DataGrid>    
                 
             </StackPanel>
         </ScrollViewer>

@@ -24,5 +24,6 @@ namespace LoanCalculator
         {
             InitializeComponent();
         }
+
     }
 }

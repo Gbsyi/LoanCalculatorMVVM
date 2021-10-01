@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
@@ -63,9 +64,21 @@ namespace LoanCalculator.ViewModels
         //Получаем список из модели
         public List<double> GetPayments
         {
-            get{ return LoanModel.Payments; }
+            get{ return LoanModel.Paymentss; }
+            set
+            {
+                OnPropertyChanged("GetPayments");
+            }
         }
-        
+        public ObservableCollection<Payments> LoanPayments
+        {
+            get { return LoanModel.LoanPayments; }
+            set
+            {
+                OnPropertyChanged("LoanPayments");
+            }
+        }
+
         //Нажатие кнопки
         public ICommand CalculateClick { get; set; }
 
@@ -77,7 +90,7 @@ namespace LoanCalculator.ViewModels
         private void Calculate(object sender)
         {
             LoanModel.CalculateLoan(_amount, _interestRate, _months, _isInterestPerYear);
-            OnPropertyChanged("GetPayments");
+            OnPropertyChanged("LoanPayments");
         }
         //Реализация интерфейса
         public event PropertyChangedEventHandler PropertyChanged;
