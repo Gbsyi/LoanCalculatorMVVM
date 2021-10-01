@@ -61,24 +61,50 @@ namespace LoanCalculator.ViewModels
             }
         }
 
-        //Получаем список из модели
-        public List<double> GetPayments
-        {
-            get{ return LoanModel.Paymentss; }
-            set
-            {
-                OnPropertyChanged("GetPayments");
-            }
-        }
+        //Получаем таблицу из модели
+        private ObservableCollection<Payments> _loanPayments;
         public ObservableCollection<Payments> LoanPayments
         {
-            get { return LoanModel.LoanPayments; }
+            get { return _loanPayments; }
             set
             {
+                _loanPayments = value;
                 OnPropertyChanged("LoanPayments");
             }
         }
-
+        
+        //Инициализируем TotalPayment
+        private double _totalPayment;
+        public double TotalPayment
+        {
+            get { return _totalPayment; }
+            set
+            {
+                _totalPayment = value;
+                OnPropertyChanged("TotalPayment");
+            }
+        }
+        //Инициализируем Overpayment
+        private double _overpayment;
+        public double Overpayment
+        {
+            get { return _overpayment; }
+            set
+            {
+                _overpayment = value;
+                OnPropertyChanged("Overpayment");
+            }
+        }
+        private double _mainPayment;
+        public double MainPayment
+        {
+            get { return _mainPayment; }
+            set 
+            { 
+                _mainPayment = value;
+                OnPropertyChanged("MainPayment");
+            }
+        }
         //Нажатие кнопки
         public ICommand CalculateClick { get; set; }
 
@@ -90,7 +116,11 @@ namespace LoanCalculator.ViewModels
         private void Calculate(object sender)
         {
             LoanModel.CalculateLoan(_amount, _interestRate, _months, _isInterestPerYear);
-            OnPropertyChanged("LoanPayments");
+            LoanPayments = LoanModel.LoanPayments;
+            Overpayment = LoanModel.Overpayment;
+            TotalPayment = LoanModel.TotalPayment;
+            MainPayment = LoanModel.MainPayment;
+
         }
         //Реализация интерфейса
         public event PropertyChangedEventHandler PropertyChanged;

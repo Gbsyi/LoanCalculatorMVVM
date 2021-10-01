@@ -9,25 +9,21 @@ namespace LoanCalculator.Models
 {
     class DiffLoanModel
     {
-        private double _overpayment;
+        //private
+        private DateTime date = DateTime.Now;
+
+        //public
+        public double Overpayment;
         public List<double> Paymentss = new List<double>();
         public ObservableCollection<Payments> LoanPayments = new ObservableCollection<Payments>();
-        private double _totalPayment = 0;
-        private DateTime date = DateTime.Now;
+        public double TotalPayment;
         public double MainPayment { get; private set; }
-        public double GetOverpayment()
-        {
-            return _overpayment;
-        }
-        public double GetTotalPayment()
-        {
-            return _totalPayment;
-        }
 
         public void CalculateLoan(double amount, double interestRate, int months, bool isInterestPerYear)
         {
+            TotalPayment = 0;
             LoanPayments = new ObservableCollection<Payments>();
-            MainPayment = Math.Round(amount / months, 2, MidpointRounding.ToEven);
+            MainPayment = Math.Round(amount / months, 5, MidpointRounding.ToEven);
             interestRate /= 100;
 
             if (isInterestPerYear) { interestRate /= 12; }
@@ -35,17 +31,17 @@ namespace LoanCalculator.Models
             for (int index = 0; index < months; index++)
             {
                 double currentPayment = Math.Round(MainPayment + (amount - (MainPayment * index)) * interestRate, 2, MidpointRounding.ToEven);
-                _totalPayment += currentPayment;
+                TotalPayment += currentPayment;
                 LoanPayments.Add(new Payments(
                     index + 1, //Index
                     date.AddMonths(index),
                     currentPayment, //Payment
                     Math.Round(currentPayment - MainPayment, 2, MidpointRounding.ToEven), //Percents
-                    Math.Round(amount - _totalPayment)
+                    Math.Round(amount - MainPayment * (index + 1), 2, MidpointRounding.AwayFromZero)
                     ));
             }
 
-            _overpayment = Math.Round(_totalPayment - amount, 2, MidpointRounding.ToEven);
+            Overpayment = Math.Round(TotalPayment - amount, 2, MidpointRounding.ToEven);
         }
     }
 }
